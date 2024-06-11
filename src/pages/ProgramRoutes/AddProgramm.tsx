@@ -328,16 +328,13 @@ const AddProgramm = (props: any) => {
     const value = event.target.value;
     setSelectedVehicletype(value);
     setDisabledNext(true);
-    console.log(disabledNext);
   };
-
   const [selectedLuggage, setSelectedLuggage] = useState<string>("");
   // This function is triggered when the select Luggage
   const handleSelectLuggage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     setSelectedLuggage(value);
     setDisabledNext(true);
-    console.log(disabledNext);
   };
 
   const [selectedJourney, setSelectedJourney] = useState<string>("");
@@ -349,7 +346,8 @@ const AddProgramm = (props: any) => {
 
   const generateGroups = () => {
     const filteredVehicleTypeID = AllPassengersLimit.filter(
-      (vehicleType: any) => selectedVehicleType === vehicleType.vehicle_type._id
+      (vehicleType: any) =>
+        selectedVehicleType === vehicleType.vehicle_type.type
     );
 
     let prevRows = [];
@@ -555,19 +553,12 @@ const AddProgramm = (props: any) => {
 
       return updatedStops;
     });
-
     const newWaypts = [...waypts];
     newWaypts.splice(idToRemove - 1, 1);
-    console.log(newWaypts);
     setWaypts(newWaypts);
-    console.log(waypts);
-
     const newStopLocations = [...stopLocations];
     newStopLocations.splice(idToRemove - 1, 1);
-    console.log(newStopLocations);
     setStopLocations(newStopLocations);
-    console.log(newStopLocations);
-
     calculateRoute();
   };
 
@@ -629,27 +620,17 @@ const AddProgramm = (props: any) => {
 
   const handlePickupTime = (selectedDates: any) => {
     const formattedTime = selectedDates[0];
-    // .toLocaleTimeString([], {
-    //   hour: "2-digit",
-    //   minute: "2-digit",
-    // });
     setPickUp_time(formattedTime);
-    console.log("Hello Fatma");
   };
 
   const handleStopTime = (selectedTime: any, index: number) => {
     console.log("indexx", index);
     const formattedTime = selectedTime[0];
-    console.log(formattedTime);
     let hour = formattedTime?.getHours();
     let minute = formattedTime?.getMinutes();
-
     let tempStopTimes = [...stopTimes];
-
     let newSelectedTime =
       String(hour).padStart(2, "0") + ":" + String(minute).padStart(2, "0");
-    console.log("newSelectedTime", newSelectedTime);
-
     tempStopTimes[index] = {
       hours: hour,
       minutes: minute,
@@ -1255,7 +1236,7 @@ const AddProgramm = (props: any) => {
           program: schoolGroups[index].program,
         };
         validSchoolGroups.push(group);
-        console.log("validSchoolGroups",validSchoolGroups)
+        console.log("validSchoolGroups", validSchoolGroups);
       }
       programmData["groups"]["type"] = "School";
       programmData["groups"]["groupCollection"] = validSchoolGroups;
@@ -2345,7 +2326,7 @@ const AddProgramm = (props: any) => {
                                           (vehicleType) => (
                                             <option
                                               value={
-                                                vehicleType.vehicle_type._id
+                                                vehicleType.vehicle_type.type
                                               }
                                               key={vehicleType.vehicle_type._id}
                                             >
@@ -2577,7 +2558,7 @@ const AddProgramm = (props: any) => {
                                   </Row>
                                 ))}
 
-                                <div className="d-flex" >
+                                <div className="d-flex">
                                   <Link
                                     to="#"
                                     id="add-item"
@@ -2592,7 +2573,10 @@ const AddProgramm = (props: any) => {
                           ) : (
                             ""
                           )}
-                          <div className="d-flex align-items-start gap-3" style={{ marginTop: "500px" }}>
+                          <div
+                            className="d-flex align-items-start gap-3"
+                            style={{ marginTop: "500px" }}
+                          >
                             <Button
                               type="button"
                               className="btn btn-light btn-label previestab"
@@ -2723,7 +2707,10 @@ const AddProgramm = (props: any) => {
                             </Col>
                           </Row>
 
-                          <div className="d-flex align-items-start gap-3" style={{ marginTop: "370px" }}>
+                          <div
+                            className="d-flex align-items-start gap-3"
+                            style={{ marginTop: "370px" }}
+                          >
                             <Button
                               type="button"
                               className="btn btn-light btn-label previestab"

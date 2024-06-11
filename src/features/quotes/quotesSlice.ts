@@ -70,10 +70,13 @@ export const quoteSlice = createApi({
         }),
         providesTags: ["Quote"],
       }),
-      
-
-      
-      
+      getAllQuotesBySchoolID: builder.query<Quote, string | void>({
+        query: (_id) => ({
+          url: `/getAllQuotesBySchoolID/${_id}`,
+          method: "GET",
+        }),
+        providesTags: ["Quote"],
+      }),
     };
   },
 });
@@ -81,6 +84,6 @@ export const quoteSlice = createApi({
 export const {
   useGetAllQuoteQuery,
   useGetQuoteByIdQuery,
-  useGetQuoteByIdScheduleQuery
-
+  useGetQuoteByIdScheduleQuery,
+  useGetAllQuotesBySchoolIDQuery
 } = quoteSlice;
