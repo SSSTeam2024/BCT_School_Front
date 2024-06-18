@@ -102,7 +102,7 @@ const Students = (props: any) => {
             <div className="d-flex align-items-center gap-2">
               <div className="flex-shrink-0">
                 <img
-                  src={`${process.env.REACT_APP_BASE_URL}/studentFiles/img/${students.id_file}`}
+                  src={`${process.env.REACT_APP_FILE_URL}/studentFiles/img/${students.id_file}`}
                   alt="student-img"
                   id="id_file"
                   className="avatar-xs rounded-circle user-profile-img "

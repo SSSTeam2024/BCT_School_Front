@@ -40,7 +40,7 @@ const SelectionStudentStops: React.FC<SelectionProps> = ({
       const names: any = students.map((student: any) => ({
         value: student._id,
         label: student.firstName + student.lastName,
-        avatar: `${process.env.REACT_APP_BASE_URL}/studentFiles/img/${student.id_file}`, // src={`process.env.REACT_APP_BASE_URL/studentFiles/img/${studentDetails.state.id_file}`}
+        avatar: `${process.env.REACT_APP_FILE_URL}/studentFiles/img/${student.id_file}`, // src={`process.env.REACT_APP_BASE_URL/studentFiles/img/${studentDetails.state.id_file}`}
       }));
       setOptions(names);
     }

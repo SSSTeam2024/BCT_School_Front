@@ -60,7 +60,7 @@ const ProfileDropdown = () => {
           <span className="d-flex align-items-center">
             <img
               className="rounded-circle header-profile-user"
-              src={`${process.env.REACT_APP_BASE_URL}/schoolFiles/${user.id_file}`}
+              src={`${process.env.REACT_APP_FILE_URL}/schoolFiles/${user.id_file}`}
               alt="Header Avatar"
             />
             <span className="text-start ms-xl-2">

@@ -94,7 +94,7 @@ const Profile = (props: any) => {
                         {studentDetails.state &&
                           studentDetails.state.id_file && (
                             <img
-                              src={`${process.env.REACT_APP_BASE_URL}/studentFiles/img/${studentDetails.state.id_file}`}
+                              src={`${process.env.REACT_APP_FILE_URL}/studentFiles/img/${studentDetails.state.id_file}`}
                               alt=""
                               className="rounded object-fit-cover"
                               style={{
@@ -495,7 +495,7 @@ const Profile = (props: any) => {
           ></div>
           <div>
             <Document
-              file={`${process.env.REACT_APP_BASE_URL}/studentFiles/pdf/${studentDetails.state.photo_id}`}
+              file={`${process.env.REACT_APP_FILE_URL}/studentFiles/pdf/${studentDetails.state.photo_id}`}
               onLoadSuccess={onDocumentLoadSuccess}
             >
               <Page pageNumber={1} />
