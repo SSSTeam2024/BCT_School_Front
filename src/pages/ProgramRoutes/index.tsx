@@ -38,7 +38,6 @@ const LoadingContainer = () => <div>Loading...</div>;
 const ProgramList = (props: any) => {
   document.title = "List of Programs | School Administration";
   const user = useSelector((state: RootState) => selectCurrentUser(state));
-   
 
   const [modal_Pickup, setmodal_Pickup] = useState<boolean>(false);
   const [modal_Destination, setmodal_Destination] = useState<boolean>(false);
@@ -49,8 +48,10 @@ const ProgramList = (props: any) => {
   };
   const { data = [] } = useFetchProgrammsQuery();
 
-  const schoolPrograms = data.filter((programForSchool:any)=> programForSchool?.school_id?._id! === user?._id!)
-  console.log("schoolPrograms",schoolPrograms)
+  const schoolPrograms = data.filter(
+    (programForSchool: any) => programForSchool?.school_id?._id! === user?._id!
+  );
+  console.log("schoolPrograms", schoolPrograms);
 
   function tog_Pickup() {
     setmodal_Pickup(!modal_Pickup);
@@ -225,6 +226,12 @@ const ProgramList = (props: any) => {
     try {
       sendResponse["id"] = programLocation.state?._id!;
       sendResponse["notes_for_client"] = responseMsg;
+      sendResponse["unit_price"] = programLocation.state?.unit_price!;
+      sendResponse["total_price"] = programLocation.state?.total_price!;
+      sendResponse["invoiceFrequency"] =
+        programLocation.state?.invoiceFrequency!;
+      sendResponse["within_payment_days"] =
+        programLocation.state?.within_payment_days!;
       let newResponseStatus: ResponseStatus = { status: "", date_status: "" };
       let prev_status: any = [];
       programLocation?.state?.program_status!.forEach((element: any) => {
@@ -274,12 +281,8 @@ const ProgramList = (props: any) => {
       name: <span className="font-weight-bold fs-13">Pickup</span>,
       selector: (cell: any) => {
         return (
-          <span>
-            <Link to="#">
-              <span className="text-secondary" onClick={() => tog_Pickup()}>
-                {cell?.origin_point?.placeName!}
-              </span>
-            </Link>
+          <span className="text-secondary" onClick={() => tog_Pickup()}>
+            {cell?.origin_point?.placeName!}
           </span>
         );
       },
@@ -289,15 +292,8 @@ const ProgramList = (props: any) => {
       name: <span className="font-weight-bold fs-13">Destination</span>,
       selector: (cell: any) => {
         return (
-          <span>
-            <Link to="#">
-              <span
-                className="text-secondary"
-                onClick={() => tog_Destination()}
-              >
-                {cell?.destination_point?.placeName!}
-              </span>
-            </Link>
+          <span className="text-secondary" onClick={() => tog_Destination()}>
+            {cell?.destination_point?.placeName!}
           </span>
         );
       },
@@ -307,13 +303,13 @@ const ProgramList = (props: any) => {
       name: <span className="font-weight-bold fs-13">From</span>,
       selector: (row: any) => row.pickUp_date,
       sortable: true,
-      width: "140px",
+      // width: "140px",
     },
     {
       name: <span className="font-weight-bold fs-13">To</span>,
       selector: (row: any) => row.droppOff_date,
       sortable: true,
-      width: "140px",
+      // width: "140px",
     },
     // {
     //   name: <span className="font-weight-bold fs-13">Status</span>,
@@ -371,32 +367,45 @@ const ProgramList = (props: any) => {
         const penultimateStatus =
           row.program_status[row.program_status.length - 2]?.status;
 
-        return (latestStatus === "Approved By Client" &&
-          penultimateStatus === "Approved By Admin") ||
-          (penultimateStatus === "Approved By Client" &&
-            latestStatus === "Approved By Admin") ? (
-          <span className="badge badge-soft-success text-uppercase">
-            Converted To Contract
+        return (
+          <span>
+            {(latestStatus === "Approved By Client" &&
+              row.status === "Converted") ||
+            (latestStatus === "Approved By Admin" &&
+              row.status === "Converted") ? (
+              <span className="badge bg-info-subtle text-info">
+                {row.status}
+              </span>
+            ) : (latestStatus === "Approved By Client" &&
+                penultimateStatus === "Approved By Admin") ||
+              (penultimateStatus === "Approved By Client" &&
+                latestStatus === "Approved By Admin") ? (
+              <span className="badge bg-secondary-subtle text-dark">
+                Contract Pending
+              </span>
+            ) : latestStatus === "Pending" ? (
+              <span className="badge bg-warning-subtle text-warning">
+                Answer Pending
+              </span>
+            ) : latestStatus === "Answered By Client" ? (
+              <span className="badge bg-secondary-subtle text-dark">
+                Answered By Client
+              </span>
+            ) : latestStatus === "Answered By Admin" ? (
+              <span className="badge bg-info-subtle text-dark">
+                Answered By Admin
+              </span>
+            ) : latestStatus === "Approved By Admin" ? (
+              <span className="badge bg-dark-subtle text-dark">
+                Approved By Admin
+              </span>
+            ) : latestStatus === "Approved By Client" ? (
+              <span className="badge bg-success-subtle text-dark">
+                Approved By Client
+              </span>
+            ) : null}
           </span>
-        ) : latestStatus === "Pending" ? (
-          <span className="badge bg-danger-subtle text-danger">Pending</span>
-        ) : latestStatus === "Answered By Client" ? (
-          <span className="badge bg-secondary-subtle text-dark">
-            Answered By Client
-          </span>
-        ) : latestStatus === "Answered By Admin" ? (
-          <span className="badge bg-info-subtle text-dark">
-            Answered By Admin
-          </span>
-        ) : latestStatus === "Approved By Admin" ? (
-          <span className="badge bg-dark-subtle text-dark">
-            Approved By Admin
-          </span>
-        ) : latestStatus === "Approved By Client" ? (
-          <span className="badge bg-success-subtle text-dark">
-            Approved By Client
-          </span>
-        ) : null;
+        );
       },
     },
     {
@@ -409,7 +418,7 @@ const ProgramList = (props: any) => {
         );
       },
       sortable: true,
-      width: "140px",
+      // width: "140px",
     },
 
     {
@@ -447,7 +456,7 @@ const ProgramList = (props: any) => {
         }
       },
       sortable: true,
-      width: "160px",
+      // width: "160px",
     },
 
     {
@@ -479,31 +488,6 @@ const ProgramList = (props: any) => {
                 ></i>
               </Link>
             </li> */}
-
-            <li>
-              <Link
-                to={"/programgroups"}
-                className="badge badge-soft-success edit-item-btn"
-                state={row}
-                onClick={() =>  localStorage.setItem('id_current_prog', row._id)}
-              >
-                <i
-                  className="ph ph-users-three"
-                  style={{
-                    transition: "transform 0.3s ease-in-out",
-                    cursor: "pointer",
-                    fontSize: "1.5em",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.2)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "scale(1)")
-                  }
-                ></i>
-              </Link>
-            </li>
-
             <li>
               <Link
                 to={`/program-details/${row.programName}`}
@@ -526,31 +510,64 @@ const ProgramList = (props: any) => {
                 ></i>
               </Link>
             </li>
-
-            <li>
-              <Link
-                to="#"
-                className="badge badge-soft-dark edit-item-btn"
-                state={row}
-                onClick={() => tog_Action()}
-              >
-                <i
-                  className="ph ph-paper-plane-tilt"
-                  style={{
-                    transition: "transform 0.3s ease-in-out",
-                    cursor: "pointer",
-                    fontSize: "1.5em",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.2)")
+            {row.status !== undefined ? (
+              <li>
+                <Link
+                  to={"/programgroups"}
+                  className="badge badge-soft-success edit-item-btn"
+                  state={row}
+                  onClick={() =>
+                    localStorage.setItem("id_current_prog", row._id)
                   }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "scale(1)")
-                  }
-                ></i>
-              </Link>
-            </li>
-
+                >
+                  <i
+                    className="ph ph-users-three"
+                    style={{
+                      transition: "transform 0.3s ease-in-out",
+                      cursor: "pointer",
+                      fontSize: "1.5em",
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.2)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.transform = "scale(1)")
+                    }
+                  ></i>
+                </Link>
+              </li>
+            ) : (
+              ""
+            )}
+            {row.status !== "Converted" &&
+            row.program_status[row.program_status.length - 1].status !==
+              "Pending" ? (
+              <li>
+                <Link
+                  to="#"
+                  className="badge badge-soft-dark edit-item-btn"
+                  state={row}
+                  onClick={() => tog_Action()}
+                >
+                  <i
+                    className="ph ph-paper-plane-tilt"
+                    style={{
+                      transition: "transform 0.3s ease-in-out",
+                      cursor: "pointer",
+                      fontSize: "1.5em",
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.2)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.transform = "scale(1)")
+                    }
+                  ></i>
+                </Link>
+              </li>
+            ) : (
+              ""
+            )}
             <li>
               <Dropdown
                 className="topbar-head-dropdown ms-1 header-item"
@@ -587,7 +604,7 @@ const ProgramList = (props: any) => {
               </Dropdown>
             </li>
 
-            <li>
+            {/* <li>
               <Link
                 to={`/edit-program/${row.Name}`}
                 className="badge badge-soft-success edit-item-btn"
@@ -608,29 +625,37 @@ const ProgramList = (props: any) => {
                   }
                 ></i>
               </Link>
-            </li>
-            <li>
-              <Link to="#" className="badge badge-soft-danger remove-item-btn">
-                <i
-                  className="ph ph-trash"
-                  style={{
-                    transition: "transform 0.3s ease-in-out",
-                    cursor: "pointer",
-                    fontSize: "1.5em",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.2)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "scale(1)")
-                  }
-                  onClick={() => AlertDelete(row._id)}
-                ></i>
-              </Link>
-            </li>
+            </li> */}
+            {row.status === "Converted" ? (
+              ""
+            ) : (
+              <li>
+                <Link
+                  to="#"
+                  className="badge badge-soft-danger remove-item-btn"
+                >
+                  <i
+                    className="ph ph-trash"
+                    style={{
+                      transition: "transform 0.3s ease-in-out",
+                      cursor: "pointer",
+                      fontSize: "1.5em",
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.2)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.transform = "scale(1)")
+                    }
+                    onClick={() => AlertDelete(row._id)}
+                  ></i>
+                </Link>
+              </li>
+            )}
           </ul>
         );
       },
+      width: "200px",
     },
   ];
 
@@ -774,20 +799,23 @@ const ProgramList = (props: any) => {
                   onChange={handleResponseMsgChange}
                 ></textarea>
               </Col>
-              <Col lg={4} className="d-flex align-items-center">
-                <div className="form-check m-2">
-                  <Form.Control
-                    className="form-check-input"
-                    type="checkbox"
-                    id="formCheck1"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
-                  />
-                </div>
-                <Form.Label className="m-2" htmlFor="customerName-field">
-                  Approved
-                </Form.Label>
-              </Col>
+              {programLocation?.state?.unit_price! !== "" && (
+                <Col lg={4} className="d-flex align-items-center">
+                  <div className="form-check m-2">
+                    <Form.Control
+                      className="form-check-input"
+                      type="checkbox"
+                      id="formCheck1"
+                      checked={isChecked}
+                      onChange={handleCheckboxChange}
+                    />
+                  </div>
+                  <Form.Label className="m-2" htmlFor="customerName-field">
+                    Approved
+                  </Form.Label>
+                </Col>
+              )}
+
               <Col lg={12}>
                 <div className="hstack gap-2 justify-content-end">
                   <Button

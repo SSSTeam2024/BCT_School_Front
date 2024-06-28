@@ -444,6 +444,62 @@ const ContractDetails: React.FC = () => {
                   <Col lg={12}>
                     <Card.Body className="p-4">
                       <div className="table-container">
+                        <Table className="table-borderless table-nowrap align-middle mb-0 w-25">
+                          <tbody>
+                            {/* <tr>
+                              <th>Your Contract Start on :</th>
+                              <td className="text-start">
+                                {contract.idProgram.pickUp_date} .
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>It ends: </th>
+                              <td className="text-start">
+                                {contract.idProgram.droppOff_date} .
+                              </td>
+                            </tr> */}
+                            <tr>
+                              <th>Working Days</th>
+                              <td className="text-start">
+                                <span className="fw-bold text-secondary">
+                                  {contract.idProgram.workDates.length}
+                                </span>{" "}
+                                {/* <span>
+                                  {contract.idProgram.workDates.join(" / ")}
+                                </span> */}
+                              </td>
+                              {/* <td className="text-start"></td> */}
+                            </tr>
+                            <tr>
+                              <th>Free Days Date are: </th>
+                              <td className="text-start">
+                                {contract.idProgram.freeDays_date} .
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>Except Days are: </th>
+                              <td className="text-start">
+                                {contract.idProgram.exceptDays} .
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>Groups Number</th>
+                              {contract.idProgram.school_id === null ? (
+                                <td className="text-start">
+                                  <span className="fw-bold text-secondary">
+                                    {contract.idProgram.employees_groups.length}
+                                  </span>
+                                </td>
+                              ) : (
+                                <td className="text-start">
+                                  <span className="fw-bold text-secondary">
+                                    {contract.idProgram.students_groups.length}
+                                  </span>
+                                </td>
+                              )}
+                            </tr>
+                          </tbody>
+                        </Table>
                         <Table className="table-borderless text-center table-nowrap align-middle mb-0">
                           <thead>
                             <tr className="table-active">

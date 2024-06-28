@@ -98,7 +98,7 @@ const Navdata = () => {
     },
     {
       id: "programming",
-      label: "Programming",
+      label: "Suggested Routes",
       icon: "ph ph-gear-six",
       link: "/programming",
       click: function (e: any) {
@@ -111,7 +111,7 @@ const Navdata = () => {
       subItems: [
         {
           id: "addnew",
-          label: "Add New Program",
+          label: "New Suggested Route",
           link: "/programming/add-program",
           parentId: "addnew",
           icon: "ph ph-plus-circle",
