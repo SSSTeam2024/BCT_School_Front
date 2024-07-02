@@ -193,7 +193,7 @@ const ContractDetails: React.FC = () => {
                   <Col lg={12}>
                     <Card.Body className="p-4">
                       <Row className="g-3">
-                        <Col lg={3} className="col-6">
+                        <Col lg={2} className="col-6">
                           <p className="text-muted mb-2 text-uppercase fw-semibold fs-14">
                             Contract No
                           </p>
@@ -202,7 +202,7 @@ const ContractDetails: React.FC = () => {
                             <span id="invoice-no"></span>
                           </h5>
                         </Col>
-                        <Col lg={3} className="col-6">
+                        <Col lg={2} className="col-6">
                           <p className="text-muted mb-2 text-uppercase fw-semibold fs-14">
                             Start Date
                           </p>
@@ -212,7 +212,16 @@ const ContractDetails: React.FC = () => {
                             </span>{" "}
                           </h5>
                         </Col>
-
+                        <Col lg={2} className="col-6">
+                          <p className="text-muted mb-2 text-uppercase fw-semibold fs-14">
+                            End Date
+                          </p>
+                          <h5 className="fs-15 mb-0">
+                            <span id="invoice-date">
+                              {contract?.idProgram?.droppOff_date!}
+                            </span>{" "}
+                          </h5>
+                        </Col>
                         <Col lg={2} className="col-6">
                           <p className="text-muted mb-2 text-uppercase fw-semibold fs-14">
                             Contract Status
